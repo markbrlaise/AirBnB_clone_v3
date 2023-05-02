@@ -19,7 +19,7 @@ def close_session(exception):
 @app.errorhandler(404)
 def page_not_found(error):
     """404 page not found"""
-    return make_response(jsonify({'error': '404'}), 404)
+    return make_response(jsonify({'error': 'Not found'}), 404)
 
 
 if __name__ == "__main__":
