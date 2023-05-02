@@ -54,17 +54,17 @@ class DBStorage:
     def get(self, cls, id):
         """retrieve an object based on its class and id"""
         if isinstance(cls, str) and isinstance(id, str) and cls and id:
-            cls = name2class[cls]
+            cls = classes[cls]
             return self.__session.query(cls).filter(cls.id == id).first()
 
     def count(self, cls=None):
         """count objects in storage in a class"""
         total = 0
-        if isinstance(cls, str) and cls in name2class:
-            cls = name2class[2]
+        if isinstance(cls, str) and cls in classes:
+            cls = classes[cls]
             total = self.__session.query(cls).count()
         elif cls is None:
-            for cls in name2class.values():
+            for cls in classes.values():
                 total += self.__session.query(cls).count()
         return total
 
@@ -83,7 +83,7 @@ class DBStorage:
 
     def reload(self):
         """reloads data from the database"""
-        #Base.metadata.create_all(self.__engine)
+        Base.metadata.create_all(self.__engine)
         sess_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(sess_factory)
         self.__session = Session
